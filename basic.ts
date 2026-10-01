@@ -81,3 +81,22 @@ data = {
   entry2: "Twenty",
   entry3: false,
 };
+
+/* --- 9. Enum ---*/
+enum Color {
+  Red = "Red",
+  Green = "Green",
+  Blue = "Blue",
+  Error = 43
+}
+let res: Color = Color.Green;
+let res2: Color = Color.Error;
+// simple way to define enum
+enum User {
+   User1, // 0
+   User2, // 1 
+   User3  // 2
+}
+let u1: User = 0;
+let u2: User = 2;
+//let u3: User = 3; // Error - 3 is not assignable to type 'User' because enum User has only 0, 1, 2 as valid values.
