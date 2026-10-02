@@ -74,7 +74,7 @@ let randomVal2 = {}; // Javascript object
 
 /* --- 8. Record(Generic) ---*/
 let data: Record<string, number | string | boolean>;
-// Or - if unsure about the type of value, 
+// Or - if unsure about the type of value,
 // let data: Record<string, unknown>;
 data = {
   entry1: 10,
@@ -87,22 +87,22 @@ enum Color {
   Red = "Red",
   Green = "Green",
   Blue = "Blue",
-  Error = 43
+  Error = 43,
 }
 let res: Color = Color.Green;
 let res2: Color = Color.Error;
 // simple way to define enum
 enum User {
-   User1, // 0
-   User2, // 1 
-   User3  // 2
+  User1, // 0
+  User2, // 1
+  User3, // 2
 }
 let u1: User = 0;
 let u2: User = 2;
 //let u3: User = 3; // Error - 3 is not assignable to type 'User' because enum User has only 0, 1, 2 as valid values.
 
 // enum as predefined values
-let s2: 'Actice' | 'Inactive' | 'Pending' = 'Pending'
+let s2: "Actice" | "Inactive" | "Pending" = "Pending";
 //let s1: 'Actice' | 'Inactive' = 'Pending' // Error - because of enum type not matching with the value assigned to it.
 
 // Tuple + Enum values together
@@ -113,46 +113,119 @@ tupleSol = [-1, -2]; // ✅
 /* --- 10. Type Aliases and custom types ---*/
 
 let userRoles: "Admin" | "User" | "Guest" | "SuperAdmin" | "Manager" = "Admin"; // ✅
-function getUserRole(role: "Admin" | "User" | "Guest" | "SuperAdmin" | "Manager" | "Moderator") {
+function getUserRole(
+  role: "Admin" | "User" | "Guest" | "SuperAdmin" | "Manager" | "Moderator",
+) {
   return role;
 }
-getUserRole('Moderator')
+getUserRole("Moderator");
 // rather than modifying the function parameter type every time, we can create a type alias for it.
-type UserRole = "Admin" | "User" | "Guest" | "SuperAdmin" | "Manager" | "Moderator";
+type UserRole =
+  | "Admin"
+  | "User"
+  | "Guest"
+  | "SuperAdmin"
+  | "Manager"
+  | "Moderator";
 function getUserRole2(role: UserRole) {
   return role;
 }
-getUserRole2('Moderator') // ✅
+getUserRole2("Moderator"); // ✅
 type User142 = {
-    name: string;
-    email: string;
-    role: UserRole; //  can be used as a type for the role property
-    permissions: string[]
-}
+  name: string;
+  email: string;
+  role: UserRole; //  can be used as a type for the role property
+  permissions: string[];
+};
 
 /* --- 11. Function return value type ---*/
 //function addTwo(a, b) {}     // ❌ a,b are implicitly of type any
-function addTwo(a: number, b: number): number { // ✅ a,b & return result are explicitly of type number
- return a + b;
+function addTwo(a: number, b: number): number {
+  // ✅ a,b & return result are explicitly of type number
+  return a + b;
 }
 
-function log(message: string): void { // ✅ return type is void
+function log(message: string): void {
+  // ✅ return type is void
   console.log(message);
 }
 
 //function throwError(message: string) { // ❌ return type is "void" if we don't return explictly "never"
-function throwError(message: string): never { // ✅ return type is "never" because it will never return anything, it will throw an error and terminate the program.
-   console.log(message);
-   throw new Error(message);
+function throwError(message: string): never {
+  // ✅ return type is "never" because it will never return anything, it will throw an error and terminate the program.
+  console.log(message);
+  throw new Error(message);
 }
 
 /* --- 12. function type  Function---*/
 function repeat1(cb: Function) {
-    cb();
+  cb();
 }
-function repeat2(cb: () => void) { // ✅ return type is void
-    cb();
+function repeat2(cb: () => void) {
+  // ✅ return type is void
+  cb();
 }
-function repeat3(cb: (m1: string, m2: number, ) => void) { // ✅ return type is void
-    cb('Operation completed in milliseconds: ', 500);
+function repeat3(cb: (m1: string, m2: number) => void) {
+  // ✅ return type is void
+  cb("Operation completed in milliseconds: ", 500);
+}
+
+/* --- 13. null , undefined, inferred null, type narrowing, forced not-null & optional chaining, Type casting, unknown type ---*/
+let selectedUser1: string | null = null; // ✅
+selectedUser1 = "Vahid"; // ✅
+//selectedUser = undefined; // ❌ because selectedUser is of type string | null, not string | null | undefined
+let selectedUser2: string | undefined = undefined; // ✅
+selectedUser2 = undefined; // ✅
+selectedUser2 = "Vahid"; // ✅
+//selectedUser2 = null; // ❌ because selectedUser is of type string | undefined, not string | null | undefined
+
+function getUser3() {
+  let selectedUser3 = document.querySelector(".user"); // inferred type as Element | null
+  console.log(selectedUser3.value);
+}
+function getUser4() {
+  let selectedUser3 = document.querySelector(".user"); // inferred type as Element | null
+  if (!selectedUser3) {
+    throw new Error("User not found");
+  }
+  console.log(selectedUser3.value); // ✅ no error because we have narrowed the type to Element
+}
+
+function getUser5() {
+  let selectedUser1 = document.querySelector(".user")!; // forced not-null.     -> Use it if sure about "null" otherwise it will throw an error at runtime.
+  console.log(selectedUser1.value); // ✅ no error on selectedUser3 because we have forced not-null above
+  //Another way to forced not-null
+  let selectedUser2 = document.querySelector(".user");
+  console.log(selectedUser2!.value);
+  // Another way but using javascript standard operator(inline check)
+  let selectedUser3 = document.querySelector(".user");
+  console.log(selectedUser3?.value);
+}
+
+// Type casting
+function getUser6() {
+  let selectedUser1 = document.querySelector(".user") as HTMLInputElement; // Type casting(Type assertion) - 1st way
+  let selectedUser2 = document.querySelector(
+    ".user",
+  ) as HTMLInputElement | null; // Type casting to HTMLInputElement | null - 2nd way
+  console.log(selectedUser1.value);
+}
+
+// Unknown type
+function getUser7() {
+  let selectedUser1: unknown = document.querySelector(".user"); // unknown type
+  if (selectedUser1 instanceof HTMLInputElement) {
+    console.log(selectedUser1.value); // ✅ no error because we have narrowed the type to HTMLInputElement
+  }
+}
+function getUser8() {
+  let selectedUser1: unknown = document.querySelector(".user"); // unknown type
+  if (
+    typeof selectedUser1 === "object" &&
+    !!selectedUser1 &&
+    selectedUser1 !== null &&
+    selectedUser1 instanceof HTMLInputElement
+  ) {
+    console.log(selectedUser1.value); // ✅ no error because of if conditions
+  }
 }
