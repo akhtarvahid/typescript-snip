@@ -229,3 +229,19 @@ function getUser8() {
     console.log(selectedUser1.value); // ✅ no error because of if conditions
   }
 }
+
+/* --- 14. Optional values, Nullish Coalescing ---*/
+function getUser9(user: { name: string; email?: string }) {
+  // email is optional, so we need to check if it exists before using it.
+  if (user.email) {
+    console.log(user.email);
+  } else {
+    console.log("Email not provided");
+  }
+}
+
+// Nullish Coalescing
+function getUser10(user: { name: string; email?: string }) {
+  // email is optional, so we need to check if it exists before using it.
+  console.log(user.email ?? "Email not provided");
+}
