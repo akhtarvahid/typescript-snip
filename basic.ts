@@ -10,14 +10,14 @@ n1 = 34;
 var n2 = 50; // Inferred type as number
 
 /* --- 3. Function parameters --- */
-function add(a: number, b = 5) {
+function addFiveFactor(a: number, b = 5) {
   // Due to initial value, b is treated as number type.
   return a + b;
 }
-add(5);
-add(10, 5);
-//add(15, '10') // Error
-//add('15', 10); // Error
+addFiveFactor(5);
+addFiveFactor(10, 5);
+//addFiveFactor(15, '10') // Error
+//addFiveFactor('15', 10); // Error
 
 /* --- 4. Union type --- */
 let value: number | string | boolean;
@@ -131,3 +131,28 @@ type User142 = {
 }
 
 /* --- 11. Function return value type ---*/
+//function addTwo(a, b) {}     // ❌ a,b are implicitly of type any
+function addTwo(a: number, b: number): number { // ✅ a,b & return result are explicitly of type number
+ return a + b;
+}
+
+function log(message: string): void { // ✅ return type is void
+  console.log(message);
+}
+
+//function throwError(message: string) { // ❌ return type is "void" if we don't return explictly "never"
+function throwError(message: string): never { // ✅ return type is "never" because it will never return anything, it will throw an error and terminate the program.
+   console.log(message);
+   throw new Error(message);
+}
+
+/* --- 12. function type  Function---*/
+function repeat1(cb: Function) {
+    cb();
+}
+function repeat2(cb: () => void) { // ✅ return type is void
+    cb();
+}
+function repeat3(cb: (m1: string, m2: number, ) => void) { // ✅ return type is void
+    cb('Operation completed in milliseconds: ', 500);
+}
