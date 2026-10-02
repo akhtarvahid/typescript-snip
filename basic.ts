@@ -100,3 +100,34 @@ enum User {
 let u1: User = 0;
 let u2: User = 2;
 //let u3: User = 3; // Error - 3 is not assignable to type 'User' because enum User has only 0, 1, 2 as valid values.
+
+// enum as predefined values
+let s2: 'Actice' | 'Inactive' | 'Pending' = 'Pending'
+//let s1: 'Actice' | 'Inactive' = 'Pending' // Error - because of enum type not matching with the value assigned to it.
+
+// Tuple + Enum values together
+let tupleSol: [1 | -1, -2];
+tupleSol = [-1, -2]; // ✅
+// tupleSol = [-5, -2]; // ❌
+
+/* --- 10. Type Aliases and custom types ---*/
+
+let userRoles: "Admin" | "User" | "Guest" | "SuperAdmin" | "Manager" = "Admin"; // ✅
+function getUserRole(role: "Admin" | "User" | "Guest" | "SuperAdmin" | "Manager" | "Moderator") {
+  return role;
+}
+getUserRole('Moderator')
+// rather than modifying the function parameter type every time, we can create a type alias for it.
+type UserRole = "Admin" | "User" | "Guest" | "SuperAdmin" | "Manager" | "Moderator";
+function getUserRole2(role: UserRole) {
+  return role;
+}
+getUserRole2('Moderator') // ✅
+type User142 = {
+    name: string;
+    email: string;
+    role: UserRole; //  can be used as a type for the role property
+    permissions: string[]
+}
+
+/* --- 11. Function return value type ---*/
