@@ -2,7 +2,7 @@
 
 
 ### Steps to run calculator app
-Run to build js file
+Run/Re-run to build js file
 > tsc
 
 Now run
