@@ -1,1 +1,17 @@
 ### Typescript
+
+
+### Steps to run calculator app
+Run/Re-run to build js file
+> tsc
+
+Now run
+
+> node calculator.js
+
+
+Within folder
+```js
+> tsc
+> node classes/1-classes.js
+```
