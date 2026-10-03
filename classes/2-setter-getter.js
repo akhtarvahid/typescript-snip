@@ -69,6 +69,8 @@ class Employee extends User2 {
     }
     get employeeDetails() {
         //console.log(`Trying to access private variables from parent class: 👉 ${this._firstName},, ${super._firstName}`); // Property '_firstName' is private and only accessible within class 'User2'
+        //Solution - > protected access modifier allows access to the property in the derived class.
+        console.log(`Trying to access private variables from parent class: 👉 ${this._firstName},`);
         return `${this.fullDetails}, Employee ID: ${this._employeeId}`;
     }
 }
