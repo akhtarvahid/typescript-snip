@@ -8,3 +8,10 @@ Run/Re-run to build js file
 Now run
 
 > node calculator.js
+
+
+Within folder
+```js
+> tsc
+> node classes/1-classes.js
+```

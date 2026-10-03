@@ -15,12 +15,13 @@ console.log(gc1); // ✅ no error because we have narrowed the type to Element
 class GrowthCalculator2 {
     name;
     rate;
+    #role = 'Admin'; // private field
     constructor(name, rate) {
         this.name = name;
         this.rate = rate;
     }
     printDetails() {
-        console.log(`Name: ${this.name}, Rate: ${this.rate}`);
+        console.log(`Name: ${this.name}, Rate: ${this.rate}, Role: ${this.#role}`);
     }
 }
 const gc = new GrowthCalculator2("Akhtar", 4.5);
