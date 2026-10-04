@@ -40,3 +40,25 @@ const user2: UserProp2 = {
   followers: 101,
   isActive: true,
 };
+
+// 3. Type guards
+type FileSource = { path: string };
+const fileSource: FileSource = {
+  path: "root/some-designated-path/file.csv",
+};
+type DBSource = { connectionUrl: string };
+const dbSource: DBSource = {
+  connectionUrl: "some-connection-path-url",
+};
+type Source = FileSource | DBSource;
+function fetchData(source: Source) {
+  if (typeof source === "object" && "path" in source) {
+    console.log(source, " use to open file 👉 ", source.path);
+  }
+  if (typeof source === "object" && "connectionUrl" in source) {
+    console.log(source, " use to make db connection 👉 ", source.connectionUrl);
+  }
+}
+
+fetchData(fileSource);
+fetchData(dbSource);
