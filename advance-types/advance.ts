@@ -41,17 +41,17 @@ const user2: UserProp2 = {
   isActive: true,
 };
 
-// 3. Type guards
-type FileSource = { path: string };
-const fileSource: FileSource = {
+// 3.1. Type guards
+type FileSource1 = { path: string };
+const fileSource1: FileSource1 = {
   path: "root/some-designated-path/file.csv",
 };
-type DBSource = { connectionUrl: string };
-const dbSource: DBSource = {
+type DBSource1 = { connectionUrl: string };
+const dbSource1: DBSource1 = {
   connectionUrl: "some-connection-path-url",
 };
-type Source = FileSource | DBSource;
-function fetchData(source: Source) {
+type Source1 = FileSource1 | DBSource1;
+function fetchData(source: Source1) {
   if (typeof source === "object" && "path" in source) {
     console.log(source, " use to open file 👉 ", source.path);
   }
@@ -60,5 +60,38 @@ function fetchData(source: Source) {
   }
 }
 
-fetchData(fileSource);
-fetchData(dbSource);
+fetchData(fileSource1);
+fetchData(dbSource1);
+
+class User {
+  constructor(public name: string) {}
+
+  join() {
+    // ...
+    console.log(`activated user: ${this.name} access!`);
+  }
+}
+
+class Admin {
+  constructor(private permissions: string[]) {}
+
+  scan() {
+    // ...
+    console.log(`scanned all the user access including user:${this.permissions}`);
+  }
+}
+
+const user = new User("Max");
+const admin = new Admin(["ban", "restore"]);
+
+type Entity = User | Admin;
+
+function init(entity: Entity) {
+  if (entity instanceof User) {
+    entity.join();
+    return;
+  }
+  entity.scan(); // If check resolves possibility of error to run .scan() method
+}
+init(user);
+init(admin);
