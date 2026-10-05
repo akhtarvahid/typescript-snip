@@ -63,4 +63,24 @@ function init(entity) {
 }
 init(user);
 init(admin);
+/** -------------------------------------------------------------------------------------- **/
+// Without Index types
+let userDetails = {};
+let store1 = {};
+store1.id = 42;
+store1.isActivated = true;
+//store.name = 'Vahid' // Error 👉 Only number and boolean type is allowed
+//Alternative using "Record"
+let store2 = {};
+store2.id = 42;
+store2.isActivated = true;
+/** -------------------------------------------------------------------------------------- **/
+// Constant types with "as" const
+let actions1 = ["CREATE", "DELETE", "UPDATE"]; // Becomes 👉 let actions1: string[]
+actions1.push('READ'); //
+let actions2 = ["CREATE", "DELETE", "UPDATE"]; // Becomes 👉  let actions2: readonly ["CREATE", "DELETE", "UPDATE"]
+// actions2.push('READ'); // Error 👉 Because it became readonly now
+const a = actions1[0]; // Becomes 👉 const a: string | undefined
+const b = actions2[0]; // Becomes 👉 const b: "CREATE"
+/** -------------------------------------------------------------------------------------- **/
 //# sourceMappingURL=advance.js.map

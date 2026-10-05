@@ -41,6 +41,8 @@ const user2: UserProp2 = {
   isActive: true,
 };
 
+/** -------------------------------------------------------------------------------------- **/
+
 // 3.1. Type guards
 type FileSource1 = { path: string };
 const fileSource1: FileSource1 = {
@@ -98,19 +100,28 @@ function init(entity: Entity) {
 init(user);
 init(admin);
 
+/** -------------------------------------------------------------------------------------- **/
+
 // Without Index types
 let userDetails = {}
-userDetails.id = 423;  // Error 👉 without type, adding new properties(id,name,...) aren't allowed
+//userDetails.id = 423;  // Error 👉 without type, adding new properties(id,name,...) aren't allowed
 
 // With Index types
-type DataStore = {
+type DataStore1 = {
   [prop: string]: number | boolean;
 };
-let store: DataStore = {};
-store.id = 42;
-store.isActivated = true;
+let store1: DataStore1 = {};
+store1.id = 42;
+store1.isActivated = true;
 //store.name = 'Vahid' // Error 👉 Only number and boolean type is allowed
 
+
+//Alternative using "Record"
+let store2: Record<string, number | boolean> = {};
+store2.id = 42;
+store2.isActivated = true;
+
+/** -------------------------------------------------------------------------------------- **/
 
 // Constant types with "as" const
 let actions1 = ["CREATE", "DELETE", "UPDATE"]; // Becomes 👉 let actions1: string[]
@@ -119,3 +130,5 @@ let actions2 = ["CREATE", "DELETE", "UPDATE"] as const; // Becomes 👉  let act
 // actions2.push('READ'); // Error 👉 Because it became readonly now
 const a = actions1[0]; // Becomes 👉 const a: string | undefined
 const b = actions2[0]; // Becomes 👉 const b: "CREATE"
+
+/** -------------------------------------------------------------------------------------- **/
