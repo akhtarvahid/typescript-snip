@@ -77,7 +77,9 @@ class Admin {
 
   scan() {
     // ...
-    console.log(`scanned all the user access including user:${this.permissions}`);
+    console.log(
+      `scanned all the user access including user:${this.permissions}`,
+    );
   }
 }
 
@@ -95,3 +97,16 @@ function init(entity: Entity) {
 }
 init(user);
 init(admin);
+
+// Without Index types
+let userDetails = {}
+userDetails.id = 423;  // Error 👉 without type, adding new properties(id,name,...) aren't allowed
+
+// With Index types
+type DataStore = {
+  [prop: string]: number | boolean;
+};
+let store: DataStore = {};
+store.id = 42;
+store.isActivated = true;
+//store.name = 'Vahid' // Error 👉 Only number and boolean type is allowed
