@@ -77,10 +77,24 @@ store2.isActivated = true;
 /** -------------------------------------------------------------------------------------- **/
 // Constant types with "as" const
 let actions1 = ["CREATE", "DELETE", "UPDATE"]; // Becomes 👉 let actions1: string[]
-actions1.push('READ'); //
+actions1.push("READ"); //
 let actions2 = ["CREATE", "DELETE", "UPDATE"]; // Becomes 👉  let actions2: readonly ["CREATE", "DELETE", "UPDATE"]
 // actions2.push('READ'); // Error 👉 Because it became readonly now
 const a = actions1[0]; // Becomes 👉 const a: string | undefined
 const b = actions2[0]; // Becomes 👉 const b: "CREATE"
-/** -------------------------------------------------------------------------------------- **/
+/** --------------------------------------satisfies keyword------------------------------------------------ **/
+// Problem
+let dataEntries1 = {
+    entry1: 234,
+    entry2: 209,
+    entry3: 999,
+};
+dataEntries1.entry4 = 243; // Problem 👉 Allow additional properties
+// Solutions
+let dataEntries2 = {
+    entry1: 234,
+    entry2: 209,
+    entry3: 999,
+};
+//ataEntries2.entry4 = 243; // Solution 👉 It's not allowing additional properties anymore.
 //# sourceMappingURL=advance.js.map
