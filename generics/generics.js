@@ -17,7 +17,17 @@ const nums1 = mergeNum1(4, 8); // 👉 const nums: any[]
 function mergeNum2(a, b) {
     return [a, b];
 }
-const nums2 = mergeNum2(4, 8); // 👉 const nums2: number[]
+const nums2 = mergeNum2(4, 8); // 👉 const nums2: number[] , by setting concrete value like <number>
 // OR
 const nums3 = mergeNum2(4, 8); // 👉 const nums2: number[]
+//Problem
+function mergeNum3(a, b) {
+    return [a, b];
+}
+//const params1 = mergeNum3(4, 'TWO'); // ERROR 👉 Argument of type 'string' is not assignable to parameter of type 'number'.
+//Solution
+function mergeNum4(a, b) {
+    return [a, b];
+}
+const params2 = mergeNum4(4, 'TWO'); // 
 //# sourceMappingURL=generics.js.map
