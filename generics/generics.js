@@ -63,8 +63,29 @@ function mergeObj6(a, b) {
     return { ...a, ...b }; //  👉 
 }
 let merged6 = mergeObj6({ num: "ONE" }, { status: false }); //FIXED 👉 hover on "mergeObj5" or "merged5" to see complex types
-/** --------------------------------------  ------------------------------------------------ **/
-/** --------------------------------------  ------------------------------------------------ **/
+/** -------------------------------------- generic class ------------------------------------------------ **/
+// 1. Problem
+class User1 {
+    id;
+    constructor(id) {
+        this.id = id;
+    }
+}
+let user1 = new User1('Vahid');
+//let user2 = new User1(false);  // 👉 Since id type is "string | number", boolean can't be allowed
+// 1. Solution
+class User2 {
+    id;
+    constructor(id) {
+        this.id = id;
+    }
+}
+let user4 = new User2('Vahid');
+let user5 = new User2(false); // 👉 Since it's generic type so boolean can be allowed
+// Using the interface with different types
+const numberBox = { value: 42 };
+const stringBox = { value: "Hello" };
+const booleanBox = { value: true };
 /** --------------------------------------  ------------------------------------------------ **/
 /** --------------------------------------  ------------------------------------------------ **/
 /** --------------------------------------  ------------------------------------------------ **/

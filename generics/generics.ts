@@ -81,10 +81,30 @@ function mergeObj6<T extends object, U extends object>(a: T, b: U) {
 }
 let merged6 = mergeObj6({ num: "ONE" }, { status: false }); //FIXED 👉 hover on "mergeObj5" or "merged5" to see complex types
 
-/** --------------------------------------  ------------------------------------------------ **/
+/** -------------------------------------- generic class ------------------------------------------------ **/
 
-/** --------------------------------------  ------------------------------------------------ **/
+// 1. Problem
+class User1 {
+  constructor(public id: string | number) {}
+}
+let user1 = new User1('Vahid');
+//let user2 = new User1(false);  // 👉 Since id type is "string | number", boolean can't be allowed
+// 1. Solution
+class User2<T> {
+  constructor(public id: T) {}
+}
+let user4 = new User2('Vahid');
+let user5 = new User2(false); // 👉 Since it's generic type so boolean can be allowed
+//user5.id = '24'               // NOT allowed 👉 Since "user5" is instantiated with boolean type
+/** --------------------------------------  Generic interface ------------------------------------------------ **/
+interface Box<T> {
+  value: T;
+}
 
+// Using the interface with different types
+const numberBox: Box<number> = { value: 42 };
+const stringBox: Box<string> = { value: "Hello" };
+const booleanBox: Box<boolean> = { value: true };
 /** --------------------------------------  ------------------------------------------------ **/
 
 /** --------------------------------------  ------------------------------------------------ **/
