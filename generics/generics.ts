@@ -69,6 +69,18 @@ function mergeObj4<T extends object>(a: T, b: T) {
 }
 let merged4 = mergeObj4({ num: "ONE" }, { num: "TWO" });
 
+
+//5.Problem
+function mergeObj5<T extends object>(a: T, b: T) {
+  return { ...a, ...b };
+}
+let merged5 = mergeObj5({ num: "ONE" }, { status: false }); //  👉 hover on "mergeObj5" or "merged5" to see complex types
+// 5. Solution
+function mergeObj6<T extends object, U extends object>(a: T, b: U) {
+  return { ...a, ...b }; //  👉 
+}
+let merged6 = mergeObj6({ num: "ONE" }, { status: false }); //FIXED 👉 hover on "mergeObj5" or "merged5" to see complex types
+
 /** --------------------------------------  ------------------------------------------------ **/
 
 /** --------------------------------------  ------------------------------------------------ **/

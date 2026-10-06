@@ -53,6 +53,16 @@ function mergeObj4(a, b) {
     return { ...a, ...b }; //  👉 extending will point the actual issue.
 }
 let merged4 = mergeObj4({ num: "ONE" }, { num: "TWO" });
+//5.Problem
+function mergeObj5(a, b) {
+    return { ...a, ...b };
+}
+let merged5 = mergeObj5({ num: "ONE" }, { status: false }); //  👉 hover on "mergeObj5" or "merged5" to see complex types
+// 5. Solution
+function mergeObj6(a, b) {
+    return { ...a, ...b }; //  👉 
+}
+let merged6 = mergeObj6({ num: "ONE" }, { status: false }); //FIXED 👉 hover on "mergeObj5" or "merged5" to see complex types
 /** --------------------------------------  ------------------------------------------------ **/
 /** --------------------------------------  ------------------------------------------------ **/
 /** --------------------------------------  ------------------------------------------------ **/
