@@ -49,10 +49,22 @@ class LinkedList3<T> {
     }
     this.length++;
   }
+  size() {
+    return this.length;
+  }
+  print() {
+    let current = this.root;
+    while (current) {
+      console.log(current.value);
+      current = current.next;
+    }
+  }
 }
 let numList3 = new LinkedList3();
 numList3.add(2);
-let nameList3 = new LinkedList3();
-nameList3.add("ONE");
+numList3.add(4);
+console.log("Length of list: ", numList3.size());
+numList3.add(6);
+numList3.print();
 /** --------------------------------------  ------------------------------------------------ **/
 /** --------------------------------------  ------------------------------------------------ **/
