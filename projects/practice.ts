@@ -91,19 +91,19 @@ let userPreview: UserPreview = {
 };
 
 //5. Omit
-type PublicUser = Omit<User3, "email">;     // 👉 : Now email isn't public anymore
+type PublicUser = Omit<User3, "email">; // 👉 : Now email isn't public anymore
 
 //6. Record
 type UserRoles = Record<string, string>;
 const roles: UserRoles = {
   admin: "Administrator",
-  user: "Normal User"
+  user: "Normal User",
 };
 //7. ReturnType
 function getUser() {
   return {
     id: 1,
-    name: "Vahid"
+    name: "Vahid",
   };
 }
 
@@ -115,4 +115,129 @@ function add(a: number, b: number) {
 }
 
 type Params = Parameters<typeof add>; // Becomes 👉 [number, number]
-/** --------------------------------------5  ------------------------------------------------ **/
+/** --------------------------------------5. Conditional Types  ------------------------------------------------ **/
+//Syntex
+//T extends U ? X : Y
+
+type IsString<T> = T extends string ? true : false;
+type A = IsString<string>; // true
+type B = IsString<number>; // false
+
+type GetCategory<T> = T extends string ? "Text" : "Other";
+
+type CatA = GetCategory<string>; // "Text"
+
+type CatB = GetCategory<number>; // "Other"
+
+type CatC = GetCategory<boolean>; // "Other"
+/** --------------------------------------6. infer ------------------------------------------------ **/
+type GetReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+
+function getUser6() {
+  return {
+    id: 1,
+    name: "Vahid",
+  };
+}
+
+type User6 = GetReturnType<typeof getUser6>;
+//infer `R` basically TypeScript ko bolta hai:
+//"Jo return type hai, usko discover karke R mein store karo."
+/** --------------------------------------7. Mapped Types(kind of Partial) ------------------------------------------------ **/
+type Person7 = {
+  firstName: string;
+  id: number;
+};
+type Optional<T> = {
+  [K in keyof T]?: T[K];
+};
+type OptionalUser = Optional<Person7>;
+
+/*
+ * Result
+{
+  firstName?: string;
+  id?: number;
+}
+*/
+// Actually Partial<T> conceptually isi type ke around based hai.
+/** --------------------------------------8. Template Literal Types ------------------------------------------------ **/
+type Direction = "top" | "bottom";
+type Position = `${Direction}-left` | `${Direction}-right`;
+
+/*
+"top-left"
+"top-right"
+"bottom-left"
+"bottom-right"
+*/
+// Advanced UI/component libraries mein useful.
+
+/** --------------------------------------9. Discriminated Unions------------------------------------------------ **/
+type ApiState =
+  | {
+      status: "loading";
+    }
+  | {
+      status: "success";
+      data: { empName: string; empId: number }[];
+    }
+  | {
+      status: "error";
+      error: string;
+    };
+
+function render(state: ApiState) {
+  if (state.status === "loading") {
+    return "Loading...";
+  }
+
+  if (state.status === "success") {
+    return state.data;
+  }
+
+  return state.error;
+}
+/** --------------------------------------10.  Function Overloading------------------------------------------------ **/
+interface EmpUser {
+  id: number;
+  name: string;
+  email: string;
+}
+
+function getEmp(id: number): EmpUser;
+function getEmp(email: string): EmpUser;
+
+function getEmp(value: number | string): EmpUser {
+  if (typeof value === "number") {
+    // Database se ID ke basis par employee fetch karo
+    return {
+      id: value,
+      name: "Rahul",
+      email: "rahul@example.com",
+    };
+  }
+
+  // Database se email ke basis par employee fetch karo
+  return {
+    id: 101,
+    name: "Rahul",
+    email: value,
+  };
+}
+const emp1 = getEmp(101);
+const emp2 = getEmp("test@example.com");
+
+console.log(emp1.name);
+console.log(emp2.email);
+// NOTE: 1. Agar input types alag hain, lekin return type same hai, toh union type kaafi hai. 
+// Agar input ke according return type bhi change hota hai, toh function overloading zyada useful hoti hai.
+// NOTE: 2. overload signatures ko implementation ke saath use karna hota hai; woh khud alag functions nahi hain aur unmein implementation body nahi hoti.
+/** --------------------------------------11.  ------------------------------------------------ **/
+/** --------------------------------------12.  ------------------------------------------------ **/
+/** --------------------------------------13.  ------------------------------------------------ **/
+/** --------------------------------------14.  ------------------------------------------------ **/
+/** --------------------------------------15.  ------------------------------------------------ **/
+/** --------------------------------------16.  ------------------------------------------------ **/
+/** --------------------------------------17.  ------------------------------------------------ **/
+/** --------------------------------------18.  ------------------------------------------------ **/
