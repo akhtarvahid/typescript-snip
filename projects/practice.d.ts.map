@@ -1,1 +1,1 @@
-{"version":3,"file":"practice.d.ts","sourceRoot":"","sources":["practice.ts"],"names":[],"mappings":";AAyOA,mGAAmG;AACnG,mGAAmG;AACnG,mGAAmG;AACnG,mGAAmG;AACnG,mGAAmG;AACnG,mGAAmG;AACnG,mGAAmG;AACnG,mGAAmG"}
+{"version":3,"file":"practice.d.ts","sourceRoot":"","sources":["practice.ts"],"names":[],"mappings":"AAgQA,0GAA0G;AAG1G,MAAM,WAAW,QAAQ;IACvB,EAAE,EAAE,MAAM,CAAC;IACX,IAAI,EAAE,MAAM,CAAC;CACd;AAiHD,mGAAmG;AACnG,mGAAmG;AACnG,mGAAmG;AACnG,mGAAmG"}

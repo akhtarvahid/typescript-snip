@@ -233,10 +233,146 @@ console.log(emp2.email);
 // NOTE: 1. Agar input types alag hain, lekin return type same hai, toh union type kaafi hai. 
 // Agar input ke according return type bhi change hota hai, toh function overloading zyada useful hoti hai.
 // NOTE: 2. overload signatures ko implementation ke saath use karna hota hai; woh khud alag functions nahi hain aur unmein implementation body nahi hoti.
-/** --------------------------------------11.  ------------------------------------------------ **/
-/** --------------------------------------12.  ------------------------------------------------ **/
-/** --------------------------------------13.  ------------------------------------------------ **/
-/** --------------------------------------14.  ------------------------------------------------ **/
+/** --------------------------------------11. Declaration Merging ------------------------------------------------ **/
+interface Student {
+  name: string;
+}
+
+interface Student {
+  age: number;
+}
+let student1: Student = {   // Student has name, age type that's why 👉 student1 requires both property to avoid error
+  name: 'Alex',
+  age: 18
+}
+/*
+* Becomes
+* 
+interface User {
+  name: string;
+  age: number;
+} 
+*   
+*/
+/** --------------------------------------12.  Modules------------------------------------------------ **/
+// 1. Example
+// user.ts
+export interface Student2 {
+  id: number;
+  name: string;
+}
+
+// export function getStudent(): Student2 {
+function getStudent(): Student2 {
+  return { id: 1, name: "Rahul" };
+}
+
+/* Wrong way
+*
+import type { User, getUser } from "../types/user";
+*/
+
+/* Correct way
+*
+import { getUser } from "../helper";
+import type { User } from "../helper";
+// Or
+import { getUser, type User } from "../helper";
+
+
+const user: User = getUser();
+console.log(user.name);
+*/
+/** --------------------------------------13.  Type Guard------------------------------------------------ **/
+function isUser(value: unknown): value is User {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "name" in value
+  );
+}
+async function fetchUser() {
+  const response = await fetch("/api/user");
+  const data: unknown = await response.json();
+
+  if (isUser(data)) {     // 👉 If you don't add condition(isUser) to check type then it won't allow to access inner property because of type "unknown"
+    console.log(data.name);
+  } else {
+    console.error("Invalid user data");
+  }
+}
+
+/** --------------------------------------14. satisfies ------------------------------------------------ **/
+
+// 1.1 "satisfies" Example 
+type ThemeConfig = {
+  background: string;
+  color: string;
+  mode: "light" | "dark";
+};
+
+const themes1 = {
+  light: {
+    background: "#ffffff",
+    color: "#111111",
+    mode: "light",
+  },
+  dark: {
+    background: "#111111",
+    color: "#ffffff",
+    mode: "dark",
+  },
+} satisfies Record<"light" | "dark", ThemeConfig>;
+themes1.dark.mode
+
+
+// 1.2 "type" example
+type Theme = {
+  light: ThemeConfig,
+  dark: ThemeConfig
+}
+const themes2: Theme = {
+  light: {
+    background: "#ffffff",
+    color: "#111111",
+    mode: "light",
+  },
+  dark: {
+    background: "#111111",
+    color: "#ffffff",
+    mode: "dark",
+  },
+};
+themes2.dark.mode
+
+/*
+* 🔔 DIFFERENCE 🔔
+* 1. infer type is different 👉 hover on "mode" of "themes2.dark.mode", "themes1.dark.mode"
+* 2. themes1.dark.mode = 'light' will return error because of inferred type from satisfies keyword which has "dark"
+*  hence use themes1.light.mode = 'light' to make it working
+* 
+
+
+*/
+
+
+// 2. Example 
+let value: unknown = "Hello";
+const result = value as string;
+console.log(result.toUpperCase()); // "HELLO"
+
+// 3. Example 
+const value2: unknown = 123;
+const result2 = value2 as string;
+console.log(result2);  // 123
+console.log(typeof result2);  // "number"   👉 TypeScript ne sirf compile-time par ise string ki tarah treat karne ki permission di. Usne number ko string mein convert nahi kiya.
+
+// If you want to convert then follow below example
+const value3 = 123;
+const result3 = String(value3);
+console.log(result3);        // "123"
+console.log(typeof result3); // "string"
+
 /** --------------------------------------15.  ------------------------------------------------ **/
 /** --------------------------------------16.  ------------------------------------------------ **/
 /** --------------------------------------17.  ------------------------------------------------ **/

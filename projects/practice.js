@@ -101,10 +101,94 @@ const emp1 = getEmp(101);
 const emp2 = getEmp("test@example.com");
 console.log(emp1.name);
 console.log(emp2.email);
-/** --------------------------------------11.  ------------------------------------------------ **/
-/** --------------------------------------12.  ------------------------------------------------ **/
-/** --------------------------------------13.  ------------------------------------------------ **/
-/** --------------------------------------14.  ------------------------------------------------ **/
+let student1 = {
+    name: 'Alex',
+    age: 18
+};
+// export function getStudent(): Student2 {
+function getStudent() {
+    return { id: 1, name: "Rahul" };
+}
+/* Wrong way
+*
+import type { User, getUser } from "../types/user";
+*/
+/* Correct way
+*
+import { getUser } from "../helper";
+import type { User } from "../helper";
+// Or
+import { getUser, type User } from "../helper";
+
+
+const user: User = getUser();
+console.log(user.name);
+*/
+/** --------------------------------------13.  Type Guard------------------------------------------------ **/
+function isUser(value) {
+    return (typeof value === "object" &&
+        value !== null &&
+        "name" in value);
+}
+async function fetchUser() {
+    const response = await fetch("/api/user");
+    const data = await response.json();
+    if (isUser(data)) { // 👉 If you don't add condition(isUser) to check type then it won't allow to access inner property because of type "unknown"
+        console.log(data.name);
+    }
+    else {
+        console.error("Invalid user data");
+    }
+}
+const themes1 = {
+    light: {
+        background: "#ffffff",
+        color: "#111111",
+        mode: "light",
+    },
+    dark: {
+        background: "#111111",
+        color: "#ffffff",
+        mode: "dark",
+    },
+};
+themes1.dark.mode;
+const themes2 = {
+    light: {
+        background: "#ffffff",
+        color: "#111111",
+        mode: "light",
+    },
+    dark: {
+        background: "#111111",
+        color: "#ffffff",
+        mode: "dark",
+    },
+};
+themes2.dark.mode;
+/*
+* 🔔 DIFFERENCE 🔔
+* 1. infer type is different 👉 hover on "mode" of "themes2.dark.mode", "themes1.dark.mode"
+* 2. themes1.dark.mode = 'light' will return error because of inferred type from satisfies keyword which has "dark"
+*  hence use themes1.light.mode = 'light' to make it working
+*
+
+
+*/
+// 2. Example 
+let value = "Hello";
+const result = value;
+console.log(result.toUpperCase()); // "HELLO"
+// 3. Example 
+const value2 = 123;
+const result2 = value2;
+console.log(result2); // 123
+console.log(typeof result2); // "number"   👉 TypeScript ne sirf compile-time par ise string ki tarah treat karne ki permission di. Usne number ko string mein convert nahi kiya.
+// If you want to convert then follow below example
+const value3 = 123;
+const result3 = String(value3);
+console.log(result3); // "123"
+console.log(typeof result3); // "string"
 /** --------------------------------------15.  ------------------------------------------------ **/
 /** --------------------------------------16.  ------------------------------------------------ **/
 /** --------------------------------------17.  ------------------------------------------------ **/
