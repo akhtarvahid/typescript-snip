@@ -229,4 +229,17 @@ const countResponse = {
     success: true,
     message: "Total users fetched",
 };
+// Question 4
+function sum(a, b) {
+    return a + b;
+}
+function subtract(a, b) {
+    return a - b;
+}
+function performMathAction(cb, a, b) {
+    // some code...
+    return cb(a, b);
+}
+console.log(performMathAction(sum, 10, 5));
+console.log(performMathAction(subtract, 20, 2));
 //# sourceMappingURL=practice.js.map

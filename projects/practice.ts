@@ -433,3 +433,22 @@ const countResponse: ApiResponse<number> = {
   success: true,
   message: "Total users fetched",
 };
+
+// Question 4
+function sum(a: number, b: number) {
+  return a + b;
+}
+function subtract(a: number, b: number) {
+  return a - b;
+}
+ 
+type SumFn = typeof sum;
+type SubtractFn = typeof subtract;
+ 
+function performMathAction(cb: SumFn | SubtractFn, a: number, b: number) {
+  // some code...
+  return cb(a, b);
+}
+
+console.log(performMathAction(sum, 10, 5))
+console.log(performMathAction(subtract, 20, 2))
