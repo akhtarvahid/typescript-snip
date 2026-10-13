@@ -377,3 +377,59 @@ console.log(typeof result3); // "string"
 /** --------------------------------------16.  ------------------------------------------------ **/
 /** --------------------------------------17.  ------------------------------------------------ **/
 /** --------------------------------------18.  ------------------------------------------------ **/
+
+
+/** --------------------------------------Excercise  ------------------------------------------------ **/
+
+// Question 1
+const identityP = <T>(value: T): T => {
+  return value
+}
+const userP = identityP<User>({
+  age: 30,
+  name: "Vahid",
+});
+
+const username = identityP<string>("Vahid");
+const count = identityP<number>(10);
+const isActive = identityP(true);
+
+// Question 2
+const getFirstItem = <T>(data: T[]): T | undefined => {
+  return data[0];
+}
+
+const users = [
+  { id: 1, name: "Vahid" },
+  { id: 2, name: "Rahul" },
+];
+
+const firstUser = getFirstItem(users); // { id: number; name: string } | undefined
+const firstNumber = getFirstItem([10, 20, 30]); // number | undefined
+const firstName = getFirstItem(["Vahid", "Rahul"]); // string | undefined
+
+// Question 3
+interface ApiResponse<T> {
+  data: T;
+  success: boolean;
+  message: string;
+}
+interface IUser {
+  id: number;
+  name: string;
+}
+
+const usersResponse: ApiResponse<IUser[]> = {
+  data: [
+    { id: 1, name: "Vahid" },
+    { id: 2, name: "Rahul" },
+  ],
+  success: true,
+  message: "Users fetched successfully",
+};
+
+const countResponse: ApiResponse<number> = {
+  data: 10,
+  success: true,
+  message: "Total users fetched",
+};

@@ -193,4 +193,40 @@ console.log(typeof result3); // "string"
 /** --------------------------------------16.  ------------------------------------------------ **/
 /** --------------------------------------17.  ------------------------------------------------ **/
 /** --------------------------------------18.  ------------------------------------------------ **/
+/** --------------------------------------Excercise  ------------------------------------------------ **/
+// Question 1
+const identityP = (value) => {
+    return value;
+};
+const userP = identityP({
+    age: 30,
+    name: "Vahid",
+});
+const username = identityP("Vahid");
+const count = identityP(10);
+const isActive = identityP(true);
+// Question 2
+const getFirstItem = (data) => {
+    return data[0];
+};
+const users = [
+    { id: 1, name: "Vahid" },
+    { id: 2, name: "Rahul" },
+];
+const firstUser = getFirstItem(users); // { id: number; name: string } | undefined
+const firstNumber = getFirstItem([10, 20, 30]); // number | undefined
+const firstName = getFirstItem(["Vahid", "Rahul"]); // string | undefined
+const usersResponse = {
+    data: [
+        { id: 1, name: "Vahid" },
+        { id: 2, name: "Rahul" },
+    ],
+    success: true,
+    message: "Users fetched successfully",
+};
+const countResponse = {
+    data: 10,
+    success: true,
+    message: "Total users fetched",
+};
 //# sourceMappingURL=practice.js.map
