@@ -278,4 +278,55 @@ const res1 = getEmpProperty(empUser, "name");
 const res2 = getEmpProperty(empUser, "age");
 console.log(res1, res2);
 //const res3 = getEmpProperty(empUser, "email");
+// Question 5.4
+const employee = {
+    name: "Rahul",
+    age: 30,
+    isActive: true,
+};
+function getEmpProperty2(obj, key) {
+    return obj[key];
+}
+const res3 = getEmpProperty2(employee, "isActive");
+console.log(res3);
+// Question 5.5
+const getEmployee5 = () => ({
+    id: 10,
+    name: "Aman",
+    department: {
+        id: 5,
+        name: "Engineering",
+    },
+});
+// Question 5.6
+const getUser56 = () => ({
+    id: 1,
+    name: "Sara",
+    active: true,
+});
+function getProperty56(obj, key) {
+    return obj[key];
+}
+function anotherGetProperty56(obj, key) {
+    return obj[key];
+}
+const a56 = getProperty56(getUser56(), "name");
+const b56 = getProperty56(getUser56(), "id");
+const c56 = anotherGetProperty56(getUser56(), "active");
+console.log(a56, b56, c56);
+// Question 5.7
+const getInitialValues = () => ({
+    name: "Vahid",
+    age: 28,
+    isActive: true,
+});
+function updateValue(key, value) {
+    return { key, value };
+}
+const u1 = updateValue("name", "Rahul");
+const u2 = updateValue("age", 30);
+const u3 = updateValue("isActive", false);
+//const u4 = updateValue("age", "30");                    // Returns value but it has typescript error
+//const u5 = updateValue("email", "test@example.com");    // Returns value but it has typescript error
+console.log(u1, u2, u3);
 //# sourceMappingURL=practice.js.map
