@@ -230,7 +230,7 @@ const emp2 = getEmp("test@example.com");
 
 console.log(emp1.name);
 console.log(emp2.email);
-// NOTE: 1. Agar input types alag hain, lekin return type same hai, toh union type kaafi hai. 
+// NOTE: 1. Agar input types alag hain, lekin return type same hai, toh union type kaafi hai.
 // Agar input ke according return type bhi change hota hai, toh function overloading zyada useful hoti hai.
 // NOTE: 2. overload signatures ko implementation ke saath use karna hota hai; woh khud alag functions nahi hain aur unmein implementation body nahi hoti.
 /** --------------------------------------11. Declaration Merging ------------------------------------------------ **/
@@ -241,10 +241,11 @@ interface Student {
 interface Student {
   age: number;
 }
-let student1: Student = {   // Student has name, age type that's why 👉 student1 requires both property to avoid error
-  name: 'Alex',
-  age: 18
-}
+let student1: Student = {
+  // Student has name, age type that's why 👉 student1 requires both property to avoid error
+  name: "Alex",
+  age: 18,
+};
 /*
 * Becomes
 * 
@@ -285,17 +286,14 @@ console.log(user.name);
 */
 /** --------------------------------------13.  Type Guard------------------------------------------------ **/
 function isUser(value: unknown): value is User {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "name" in value
-  );
+  return typeof value === "object" && value !== null && "name" in value;
 }
 async function fetchUser() {
   const response = await fetch("/api/user");
   const data: unknown = await response.json();
 
-  if (isUser(data)) {     // 👉 If you don't add condition(isUser) to check type then it won't allow to access inner property because of type "unknown"
+  if (isUser(data)) {
+    // 👉 If you don't add condition(isUser) to check type then it won't allow to access inner property because of type "unknown"
     console.log(data.name);
   } else {
     console.error("Invalid user data");
@@ -304,7 +302,7 @@ async function fetchUser() {
 
 /** --------------------------------------14. satisfies ------------------------------------------------ **/
 
-// 1.1 "satisfies" Example 
+// 1.1 "satisfies" Example
 type ThemeConfig = {
   background: string;
   color: string;
@@ -323,14 +321,13 @@ const themes1 = {
     mode: "dark",
   },
 } satisfies Record<"light" | "dark", ThemeConfig>;
-themes1.dark.mode
-
+themes1.dark.mode;
 
 // 1.2 "type" example
 type Theme = {
-  light: ThemeConfig,
-  dark: ThemeConfig
-}
+  light: ThemeConfig;
+  dark: ThemeConfig;
+};
 const themes2: Theme = {
   light: {
     background: "#ffffff",
@@ -343,7 +340,7 @@ const themes2: Theme = {
     mode: "dark",
   },
 };
-themes2.dark.mode
+themes2.dark.mode;
 
 /*
 * 🔔 DIFFERENCE 🔔
@@ -355,25 +352,217 @@ themes2.dark.mode
 
 */
 
-
-// 2. Example 
+// 2. Example
 let value: unknown = "Hello";
 const result = value as string;
 console.log(result.toUpperCase()); // "HELLO"
 
-// 3. Example 
+// 3. Example
 const value2: unknown = 123;
 const result2 = value2 as string;
-console.log(result2);  // 123
-console.log(typeof result2);  // "number"   👉 TypeScript ne sirf compile-time par ise string ki tarah treat karne ki permission di. Usne number ko string mein convert nahi kiya.
+console.log(result2); // 123
+console.log(typeof result2); // "number"   👉 TypeScript ne sirf compile-time par ise string ki tarah treat karne ki permission di. Usne number ko string mein convert nahi kiya.
 
 // If you want to convert then follow below example
 const value3 = 123;
 const result3 = String(value3);
-console.log(result3);        // "123"
+console.log(result3); // "123"
 console.log(typeof result3); // "string"
 
 /** --------------------------------------15.  ------------------------------------------------ **/
 /** --------------------------------------16.  ------------------------------------------------ **/
 /** --------------------------------------17.  ------------------------------------------------ **/
 /** --------------------------------------18.  ------------------------------------------------ **/
+
+/** --------------------------------------Excercise  ------------------------------------------------ **/
+
+// Question 1
+const identityP = <T>(value: T): T => {
+  return value;
+};
+const userP = identityP<User>({
+  age: 30,
+  name: "Vahid",
+});
+
+const username = identityP<string>("Vahid");
+const count = identityP<number>(10);
+const isActive = identityP(true);
+
+// Question 2
+const getFirstItem = <T>(data: T[]): T | undefined => {
+  return data[0];
+};
+
+const users = [
+  { id: 1, name: "Vahid" },
+  { id: 2, name: "Rahul" },
+];
+
+const firstUser = getFirstItem(users); // { id: number; name: string } | undefined
+const firstNumber = getFirstItem([10, 20, 30]); // number | undefined
+const firstName = getFirstItem(["Vahid", "Rahul"]); // string | undefined
+
+// Question 3
+interface ApiResponse<T> {
+  data: T;
+  success: boolean;
+  message: string;
+}
+interface IUser {
+  id: number;
+  name: string;
+}
+
+const usersResponse: ApiResponse<IUser[]> = {
+  data: [
+    { id: 1, name: "Vahid" },
+    { id: 2, name: "Rahul" },
+  ],
+  success: true,
+  message: "Users fetched successfully",
+};
+
+const countResponse: ApiResponse<number> = {
+  data: 10,
+  success: true,
+  message: "Total users fetched",
+};
+
+// Question 4
+function sum(a: number, b: number) {
+  return a + b;
+}
+function subtract(a: number, b: number) {
+  return a - b;
+}
+
+type SumFn = typeof sum;
+type SubtractFn = typeof subtract;
+
+function performMathAction(cb: SumFn | SubtractFn, a: number, b: number) {
+  // some code...
+  return cb(a, b);
+}
+
+console.log(performMathAction(sum, 10, 5));
+console.log(performMathAction(subtract, 20, 2));
+
+// Question 5.1
+const getUser5 = () => ({
+  id: 1,
+  name: "Vahid",
+  email: "vahid@example.com",
+});
+
+type UserKey5 = keyof ReturnType<typeof getUser5>;
+
+const key1: UserKey5 = "name"; // Valid
+const key2: UserKey5 = "email"; // Valid
+
+// Error: 'age' is not a returned object key
+// const key3: UserKey5 = 'age';
+
+// Question 5.2
+const getUser52 = () => ({
+  id: 1,
+  name: "Rahul",
+  active: true,
+});
+
+type UserKey52 = keyof ReturnType<typeof getUser52>;
+
+function getValue52<T>(key: UserKey52) {
+  return getUser52()[key];
+}
+
+console.log(getValue52("name"));
+//getValue52("email"); // Error
+
+//Question 5.3
+const getEmp3 = () => ({
+  id: 101,
+  name: "Vahid",
+  age: 28,
+  isActive: true,
+});
+
+function getEmpProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+const empUser = getEmp3();
+
+const res1 = getEmpProperty(empUser, "name");
+const res2 = getEmpProperty(empUser, "age");
+console.log(res1, res2);
+//const res3 = getEmpProperty(empUser, "email");
+
+// Question 5.4
+const employee = {
+  name: "Rahul",
+  age: 30,
+  isActive: true,
+};
+function getEmpProperty2<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+const res3 = getEmpProperty2(employee, "isActive");
+console.log(res3);
+
+// Question 5.5
+const getEmployee5 = () => ({
+  id: 10,
+  name: "Aman",
+  department: {
+    id: 5,
+    name: "Engineering",
+  },
+});
+
+type Employee5 = ReturnType<typeof getEmployee5>;
+
+type EmployeeKeys = keyof Employee5;
+type DepartmentKeys = keyof Employee5["department"];
+
+// Question 5.6
+const getUser56 = () => ({
+  id: 1,
+  name: "Sara",
+  active: true,
+});
+
+function getProperty56<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+// Another soluton
+type User56 = ReturnType<typeof getUser56>;
+type UserKeys56 = keyof User56;
+function anotherGetProperty56<K extends UserKeys56>(obj: User56, key: K): User56[K] {
+  return obj[key];
+}
+
+const a56 = getProperty56(getUser56(), "name");
+const b56 = getProperty56(getUser56(), "id");
+const c56 = anotherGetProperty56(getUser56(), "active");
+console.log(a56, b56, c56);
+
+// Question 5.7
+const getInitialValues = () => ({
+  name: "Vahid",
+  age: 28,
+  isActive: true,
+});
+
+function updateValue<T extends keyof ReturnType<typeof getInitialValues>>(key: T, value: ReturnType<typeof getInitialValues>[T]) {
+  return {key, value};
+}
+ 
+const u1 = updateValue("name", "Rahul");
+const u2 = updateValue("age", 30);
+const u3 = updateValue("isActive", false);
+//const u4 = updateValue("age", "30");                    // Returns value but it has typescript error
+//const u5 = updateValue("email", "test@example.com");    // Returns value but it has typescript error
+console.log(u1,u2,u3);

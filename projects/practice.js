@@ -102,8 +102,9 @@ const emp2 = getEmp("test@example.com");
 console.log(emp1.name);
 console.log(emp2.email);
 let student1 = {
-    name: 'Alex',
-    age: 18
+    // Student has name, age type that's why 👉 student1 requires both property to avoid error
+    name: "Alex",
+    age: 18,
 };
 // export function getStudent(): Student2 {
 function getStudent() {
@@ -126,14 +127,13 @@ console.log(user.name);
 */
 /** --------------------------------------13.  Type Guard------------------------------------------------ **/
 function isUser(value) {
-    return (typeof value === "object" &&
-        value !== null &&
-        "name" in value);
+    return typeof value === "object" && value !== null && "name" in value;
 }
 async function fetchUser() {
     const response = await fetch("/api/user");
     const data = await response.json();
-    if (isUser(data)) { // 👉 If you don't add condition(isUser) to check type then it won't allow to access inner property because of type "unknown"
+    if (isUser(data)) {
+        // 👉 If you don't add condition(isUser) to check type then it won't allow to access inner property because of type "unknown"
         console.log(data.name);
     }
     else {
@@ -175,11 +175,11 @@ themes2.dark.mode;
 
 
 */
-// 2. Example 
+// 2. Example
 let value = "Hello";
 const result = value;
 console.log(result.toUpperCase()); // "HELLO"
-// 3. Example 
+// 3. Example
 const value2 = 123;
 const result2 = value2;
 console.log(result2); // 123
@@ -193,4 +193,140 @@ console.log(typeof result3); // "string"
 /** --------------------------------------16.  ------------------------------------------------ **/
 /** --------------------------------------17.  ------------------------------------------------ **/
 /** --------------------------------------18.  ------------------------------------------------ **/
+/** --------------------------------------Excercise  ------------------------------------------------ **/
+// Question 1
+const identityP = (value) => {
+    return value;
+};
+const userP = identityP({
+    age: 30,
+    name: "Vahid",
+});
+const username = identityP("Vahid");
+const count = identityP(10);
+const isActive = identityP(true);
+// Question 2
+const getFirstItem = (data) => {
+    return data[0];
+};
+const users = [
+    { id: 1, name: "Vahid" },
+    { id: 2, name: "Rahul" },
+];
+const firstUser = getFirstItem(users); // { id: number; name: string } | undefined
+const firstNumber = getFirstItem([10, 20, 30]); // number | undefined
+const firstName = getFirstItem(["Vahid", "Rahul"]); // string | undefined
+const usersResponse = {
+    data: [
+        { id: 1, name: "Vahid" },
+        { id: 2, name: "Rahul" },
+    ],
+    success: true,
+    message: "Users fetched successfully",
+};
+const countResponse = {
+    data: 10,
+    success: true,
+    message: "Total users fetched",
+};
+// Question 4
+function sum(a, b) {
+    return a + b;
+}
+function subtract(a, b) {
+    return a - b;
+}
+function performMathAction(cb, a, b) {
+    // some code...
+    return cb(a, b);
+}
+console.log(performMathAction(sum, 10, 5));
+console.log(performMathAction(subtract, 20, 2));
+// Question 5.1
+const getUser5 = () => ({
+    id: 1,
+    name: "Vahid",
+    email: "vahid@example.com",
+});
+const key1 = "name"; // Valid
+const key2 = "email"; // Valid
+// Error: 'age' is not a returned object key
+// const key3: UserKey5 = 'age';
+// Question 5.2
+const getUser52 = () => ({
+    id: 1,
+    name: "Rahul",
+    active: true,
+});
+function getValue52(key) {
+    return getUser52()[key];
+}
+console.log(getValue52("name"));
+//getValue52("email"); // Error
+//Question 5.3
+const getEmp3 = () => ({
+    id: 101,
+    name: "Vahid",
+    age: 28,
+    isActive: true,
+});
+function getEmpProperty(obj, key) {
+    return obj[key];
+}
+const empUser = getEmp3();
+const res1 = getEmpProperty(empUser, "name");
+const res2 = getEmpProperty(empUser, "age");
+console.log(res1, res2);
+//const res3 = getEmpProperty(empUser, "email");
+// Question 5.4
+const employee = {
+    name: "Rahul",
+    age: 30,
+    isActive: true,
+};
+function getEmpProperty2(obj, key) {
+    return obj[key];
+}
+const res3 = getEmpProperty2(employee, "isActive");
+console.log(res3);
+// Question 5.5
+const getEmployee5 = () => ({
+    id: 10,
+    name: "Aman",
+    department: {
+        id: 5,
+        name: "Engineering",
+    },
+});
+// Question 5.6
+const getUser56 = () => ({
+    id: 1,
+    name: "Sara",
+    active: true,
+});
+function getProperty56(obj, key) {
+    return obj[key];
+}
+function anotherGetProperty56(obj, key) {
+    return obj[key];
+}
+const a56 = getProperty56(getUser56(), "name");
+const b56 = getProperty56(getUser56(), "id");
+const c56 = anotherGetProperty56(getUser56(), "active");
+console.log(a56, b56, c56);
+// Question 5.7
+const getInitialValues = () => ({
+    name: "Vahid",
+    age: 28,
+    isActive: true,
+});
+function updateValue(key, value) {
+    return { key, value };
+}
+const u1 = updateValue("name", "Rahul");
+const u2 = updateValue("age", 30);
+const u3 = updateValue("isActive", false);
+//const u4 = updateValue("age", "30");                    // Returns value but it has typescript error
+//const u5 = updateValue("email", "test@example.com");    // Returns value but it has typescript error
+console.log(u1, u2, u3);
 //# sourceMappingURL=practice.js.map
