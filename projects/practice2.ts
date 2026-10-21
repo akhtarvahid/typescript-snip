@@ -91,10 +91,9 @@ type NullableProductt = {
 
 // My Right solution
 type Nullable2<T> = {
-    [K in keyof T]: T[K] | null;
-}
-type IProduct = Nullable2<Product>
-
+  [K in keyof T]: T[K] | null;
+};
+type IProduct = Nullable2<Product>;
 
 // Expected result:
 type NullableProduct = {
@@ -102,3 +101,51 @@ type NullableProduct = {
   name: string | null;
   price: number | null;
 };
+
+// Level 2
+/*
+Tasks:
+1. Parameters<typeof createOrder> se OrderParams type banao.
+2. Ek valid tuple create karo.
+3. Tuple use karke createOrder() call karo.
+4. Wrong order mein arguments pass karke error observe karo.
+5. Bonus: Ek wrapper function banao jo OrderParams accept kare aur createOrder() ko call kare.
+*/
+function createOrder(
+  productId: number,
+  quantity: number,
+  couponCode: string | undefined,
+) {
+  return {
+    productId,
+    quantity,
+    couponCode,
+  };
+}
+
+type OrderParams = Parameters<typeof createOrder>;
+const myParams: OrderParams = [322, 2, "XOA"];
+createOrder(...myParams);
+
+// Level 3 - Conditional Types — API response handle karna
+/*
+Ek generic conditional type Result<T> banao:
+- Agar T string hai, result { value: string } ho.
+- Agar T number hai, result { count: number } ho.
+- Baaki types ke liye result { data: T } ho.
+Tasks:
+1. Result<string> test karo.
+2. Result<number> test karo.
+3. Result<boolean> test karo.
+4. Har case ke liye valid object banao.
+5. Bonus: T extends string | number use karne par union type ke saath conditional type ka behaviour test karo.
+*/
+
+type Result<T> = T extends string
+  ? { message: string }
+  : T extends number
+    ? { count: number }
+    : { data: T };
+type StringResponse = Result<string>;
+type NumberResponse = Result<number>;
+type DataResponse = Result<{ id: 2; name: "John" }>;

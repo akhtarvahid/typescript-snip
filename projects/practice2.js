@@ -35,4 +35,22 @@ const stock = {
     clothing: 40,
     books: 100,
 };
+// Level 2
+/*
+Tasks:
+1. Parameters<typeof createOrder> se OrderParams type banao.
+2. Ek valid tuple create karo.
+3. Tuple use karke createOrder() call karo.
+4. Wrong order mein arguments pass karke error observe karo.
+5. Bonus: Ek wrapper function banao jo OrderParams accept kare aur createOrder() ko call kare.
+*/
+function createOrder(productId, quantity, couponCode) {
+    return {
+        productId,
+        quantity,
+        couponCode,
+    };
+}
+const myParams = [322, 2, "XOA"];
+createOrder(...myParams);
 //# sourceMappingURL=practice2.js.map
