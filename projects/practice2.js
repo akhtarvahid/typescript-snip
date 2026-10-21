@@ -53,4 +53,25 @@ function createOrder(productId, quantity, couponCode) {
 }
 const myParams = [322, 2, "XOA"];
 createOrder(...myParams);
+/*
+ * Mapped Types — Generate form state automatically
+ *
+ *  Task
+ * Create Type of Profile and FormState
+ */
+const userForm = {
+    name: {
+        value: "John",
+        touched: true,
+    },
+    age: {
+        value: 24,
+        touched: false,
+    },
+    active: {
+        value: true,
+        touched: false,
+    },
+};
+console.log(userForm);
 //# sourceMappingURL=practice2.js.map
