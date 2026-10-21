@@ -149,3 +149,24 @@ type Result<T> = T extends string
 type StringResponse = Result<string>;
 type NumberResponse = Result<number>;
 type DataResponse = Result<{ id: 2; name: "John" }>;
+
+
+type ItemType<T> = T extends (infer U)[] ? U : never;
+
+type Names = ItemType<string>;
+// string
+
+type Numbers = ItemType<number[]>;
+// number
+
+
+/*
+Ek generic type PromiseValue<T> banao jo:
+- Promise<string> se string return kare.
+- Promise<number> se number return kare.
+- Non-Promise input ke liye never return kare.
+*/
+type PromiseValue<T> = T extends Promise<infer U> ? U: never;
+type nameValue = PromiseValue<Promise<string>>;
+type numValue = PromiseValue<Promise<number>>;
+type otherValue = PromiseValue<number>; // hover on otherValue to see type
