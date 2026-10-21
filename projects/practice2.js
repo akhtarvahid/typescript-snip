@@ -74,4 +74,27 @@ const userForm = {
     },
 };
 console.log(userForm);
+/*
+*Tasks:
+1. ValidationState<Product> banao.
+2. Har field ka correct value type use karo.
+3. price.value ko string dene par error check karo.
+4. name.error mein error message store karo.
+5. Bonus: Aisa mapped type banao jo original type ki saari properties ko optional bana de. Hint: [K in keyof T]?: T[K].
+*/
+const newProdd = {
+    name: {
+        value: "Jeans",
+        error: null,
+    },
+    price: {
+        value: 2000,
+        error: null,
+    },
+    inStock: {
+        value: true,
+        error: null,
+    },
+};
+console.log(newProdd);
 //# sourceMappingURL=practice2.js.map
