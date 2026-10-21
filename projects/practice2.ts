@@ -57,3 +57,48 @@ const publicUser: PublicReadonlyUser = {
 };
 //publicUser.name = "Akhtar"
 console.log(publicUser);
+
+/** -------------------------------------- Excercise3  generic ------------------------------------------------ **/
+type Category = "electronics" | "clothing" | "books";
+// concise and simple(recommended)
+type Stock1 = Record<Category, number>;
+// Alternative
+type Stock2 = {
+  electronics: number;
+  clothing: number;
+  books: number;
+};
+const stock: Stock1 = {
+  electronics: 25,
+  clothing: 40,
+  books: 100,
+};
+
+// Question
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+}
+
+// My solution
+type Nullable<T> = T | null;
+type NullableProductt = {
+  id: Nullable<number>;
+  name: Nullable<string>;
+  price: Nullable<number>;
+};
+
+// My Right solution
+type Nullable2<T> = {
+    [K in keyof T]: T[K] | null;
+}
+type IProduct = Nullable2<Product>
+
+
+// Expected result:
+type NullableProduct = {
+  id: number | null;
+  name: string | null;
+  price: number | null;
+};

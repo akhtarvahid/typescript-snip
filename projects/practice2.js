@@ -30,4 +30,9 @@ const publicUser = {
 };
 //publicUser.name = "Akhtar"
 console.log(publicUser);
+const stock = {
+    electronics: 25,
+    clothing: 40,
+    books: 100,
+};
 //# sourceMappingURL=practice2.js.map
