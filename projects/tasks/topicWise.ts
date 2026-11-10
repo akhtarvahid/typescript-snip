@@ -421,8 +421,8 @@ function createEmployeee(
   return { name, age, department, salary, email, isActive };
 }
 type UpdatedEmployeeParams = Parameters<typeof createEmployeee>;
-const c1 = createEmployeee(...employeeData);
-console.log(c1);
+const ce1 = createEmployeee(...employeeData);
+console.log(ce1);
 
 /**
  *
@@ -437,11 +437,6 @@ type Aa = IsString<string>;
 type Bb = IsString<number>;
 type Cc = IsString<"Hello">;
 type Dd = IsString<boolean>;
-
-let a1: Aa = "Aaa";
-let b1: Bb = 234;
-let c1: Cc = "A";
-let d1: Dd = false;
 
 // Task 2 — Number or String
 type DataType<T> = T extends string
@@ -513,10 +508,10 @@ function getUser() {
 
 type UserReturn = MyReturnType<typeof getUser>; // using infer
 type UserReturn2 = ReturnType<typeof getUser>; // using ReturnType
-function user1(user: UserReturn) {
+function userFn1(user: UserReturn) {
   return user.id;
 }
-function user2(user: UserReturn) {
+function userFn2(user: UserReturn) {
   return user.name;
 }
 
@@ -538,7 +533,7 @@ type A3 = PromiseValue<string>;
 
 // Task 5 — Nested Object Extraction
 // Create a conditional type ExtractData<T> that extracts the type of data.
-type ExtractData<T> =  T extends { data: infer U } ? U: T;
+type ExtractData<T> = T extends { data: infer U } ? U : T;
 type ApiDataResponse<T> = {
   status: number;
   data: T;
@@ -551,3 +546,151 @@ type UserApiResponse = ApiDataResponse<{
 }>;
 
 type UserData = ExtractData<UserApiResponse>;
+
+/**
+ *
+ *
+ * Topic 37: Mapped Types
+ */
+
+//Task 1 — Make All Properties Optional
+// Scenario: User profile update API mein user ko kisi bhi property ko update karne ki flexibility deni hai.
+// Given
+interface IUser {
+  id: number;
+  name: string;
+  email: string;
+  age: number;
+}
+type MyPartial<T> = {
+  [K in keyof T]?: T[K];
+};
+type UpdateUser = MyPartial<IUser>;
+const user1: UpdateUser = {
+  name: "Vahid",
+};
+const user2: UpdateUser = {
+  email: "vahid@gmail.com",
+  age: 24,
+};
+const user3: UpdateUser = {};
+
+// Task 2 — Make All Properties Readonly
+// Scenario: Product details fetch karne ke baad tum chahte ho ki koi developer accidentally properties modify na kar sake.
+interface IProduct {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+}
+type MyReadonly<T> = {
+  readonly [K in keyof T]: T[K];
+};
+type ReadonlyProd = MyReadonly<IProduct>;
+const prodO: ReadonlyProd = {
+  id: 23,
+  name: "Jeans",
+  price: 4224,
+  category: "cloth",
+};
+
+// Task 3 — Convert All Properties to String
+// Scenario: Backend se data receive karne ke baad tumhe ek form configuration object banana hai jisme saari values strings hon.
+interface IEmployee {
+  id: number;
+  name: string;
+  salary: number;
+  isActive: boolean;
+}
+type Stringify<T> = {
+  [K in keyof T]: string;
+};
+// Expected
+// type EmployeeForm = {
+//   id: string;
+//   name: string;
+//   salary: string;
+//   isActive: string;
+// };
+
+type EmployeeForm = Stringify<IEmployee>;
+const emp: EmployeeForm = {
+  id: "234",
+  name: "John",
+  salary: "23424",
+  isActive: "true",
+};
+
+// Task 4 — Add Optional and Readonly Modifiers
+// Scenario: Admin dashboard mein user details read-only hain, lekin configuration mein kuch properties optional bhi honi chahiye.
+interface AdminUser {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+}
+// Create these two mapped types:
+// A. All properties readonly and optional
+type ReadonlyOptionalQuestion<T> = {
+  // Your implementation
+};
+//B. All properties required and mutable
+type RequiredMutableQuestion<T> = {
+  // Your implementation
+};
+
+type ReadonlyOptionalAnswer<T> = {
+  readonly [K in keyof T]?: T[K];
+};
+
+let au1: ReadonlyOptionalAnswer<AdminUser> = {
+  id: 32,
+  name: "Alx",
+  email: "alx@gmail.com",
+};
+//au1.id = 42; // Cannot assign to 'id' because it is a read-only property.
+
+type RequiredMutableAnswer<T> = {
+  [K in keyof T]-?: T[K];
+};
+let au2: RequiredMutableAnswer<AdminUser> = {
+  id: 32,
+  name: "Alx",
+  email: "alx@gmail.com",
+  role: "Admin", // now it becomes mandatory to add
+};
+
+// Task 5 — Selectively Transform Properties
+// Scenario: Employee API mein salary aur age numeric fields hain. Tumhe sirf numeric properties ko string mein convert karna hai.
+// Given
+interface EmployeeDetails {
+  id: number;
+  name: string;
+  age: number;
+  salary: number;
+  department: string;
+  isActive: boolean;
+}
+type ConvertNumbersToStringQuestion<T> = {
+  // Your implementation
+};
+// Expected
+type EmployeeFormData = {
+  id: string;
+  name: string;
+  age: string;
+  salary: string;
+  department: string;
+  isActive: boolean;
+};
+type ConvertNumbersToStringAnswer<T> = {
+  -readonly [K in keyof T]: T[K] extends number ? string : T[K];
+};
+let ed1: ConvertNumbersToStringAnswer<EmployeeDetails> = {
+  id: "2444",
+  name: "Alx",
+  age: "42",
+  salary: "234242",
+  department: "IT",
+  isActive: false,
+};

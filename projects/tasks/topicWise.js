@@ -200,7 +200,7 @@ console.log(disRes);
  *
  * Next Challenge — Topic 34: Parameters
  *
-*/
+ */
 function createEmployee(name, age, department, salary, isActive) {
     return {
         name,
@@ -216,7 +216,7 @@ const employeeData = [
     28,
     "Engineering",
     80000,
-    false //4  👉 Error: Type 'number' is not assignable to type 'boolean'
+    false, //4  👉 Error: Type 'number' is not assignable to type 'boolean'
 ];
 // Task 3 - Reuse Extracted Parameters
 function registerEmployee(...args) {
@@ -229,6 +229,61 @@ console.log(registered);
 function createEmployeee(name, age, department, salary, isActive, email) {
     return { name, age, department, salary, email, isActive };
 }
-const c1 = createEmployeee(...employeeData);
-console.log(c1);
+const ce1 = createEmployeee(...employeeData);
+console.log(ce1);
+function getUser() {
+    return {
+        id: 1,
+        name: "Rahul",
+        isActive: true,
+    };
+}
+function userFn1(user) {
+    return user.id;
+}
+function userFn2(user) {
+    return user.name;
+}
+function createProduct(name, price, inStock) {
+    return { name, price, inStock };
+}
+const user1 = {
+    name: "Vahid",
+};
+const user2 = {
+    email: "vahid@gmail.com",
+    age: 24,
+};
+const user3 = {};
+const prodO = {
+    id: 23,
+    name: "Jeans",
+    price: 4224,
+    category: "cloth",
+};
+const emp = {
+    id: "234",
+    name: "John",
+    salary: "23424",
+    isActive: "true",
+};
+let au1 = {
+    id: 32,
+    name: "Alx",
+    email: "alx@gmail.com",
+};
+let au2 = {
+    id: 32,
+    name: "Alx",
+    email: "alx@gmail.com",
+    role: "Admin", // now it becomes mandatory to add
+};
+let ed1 = {
+    id: "2444",
+    name: "Alx",
+    age: "42",
+    salary: "234242",
+    department: "IT",
+    isActive: false,
+};
 //# sourceMappingURL=topicWise.js.map
