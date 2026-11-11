@@ -286,4 +286,18 @@ let ed1 = {
     department: "IT",
     isActive: false,
 };
+const handlers = {
+    onClick: () => console.log("Clicked"),
+    onFocus: () => console.log("Focused"),
+    onBlur: () => console.log("Blurred"),
+    onChange: () => console.log("Changed"),
+};
+function on(eventName) {
+    console.log(`Event registered: ${eventName}`);
+}
+on("nameChanged");
+on("emailChanged");
+on("ageChanged");
+// Error: invalid event name
+// on("salaryChanged");
 //# sourceMappingURL=topicWise.js.map

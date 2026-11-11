@@ -694,3 +694,65 @@ let ed1: ConvertNumbersToStringAnswer<EmployeeDetails> = {
   department: "IT",
   isActive: false,
 };
+
+/**
+ *
+ *
+ * Topic 38: Template Literal Types
+ *
+ * Task 1 — Basic Template Literal Types
+ */
+type FirstName = "Vahid";
+type LastName = "Akhtar";
+type FullName = `${FirstName} ${LastName}`;
+type WelcomeMessage = `Welcome ${FirstName}!`;
+type UserId = `USER_${101}`;
+
+// Task 2 — String Manipulation
+type Role = "admin" | "manager" | "developer";
+type UpperRole = Uppercase<Role>; // like -> ADMIN
+type LowerRole = Lowercase<UpperRole>; // like ->
+type CapitalRole = Capitalize<Role>;
+type UncapitalRole = Uncapitalize<CapitalRole>;
+
+// Task 3 — Dynamic API Endpoints
+// Scenario: You're building a NestJS backend where different modules have different API endpoints.
+type Resource = "users" | "products" | "orders";
+type Action = "get" | "create" | "update" | "delete";
+
+type Endpoint = `${Action}/${Resource}`;
+
+// Task 4 — Event Handling System
+// Scenario: You're building a React component with event handlers.
+type EventName = "click" | "focus" | "blur" | "change";
+type EventHandler = `on${Capitalize<EventName>}`;
+const handlers: Record<EventHandler, () => void> = {
+  onClick: () => console.log("Clicked"),
+  onFocus: () => console.log("Focused"),
+  onBlur: () => console.log("Blurred"),
+  onChange: () => console.log("Changed"),
+};
+
+// Task 5 — Property Change Events
+// Scenario: Imagine you have a user object and want to generate event names whenever a property changes.
+//Requirements:
+// 1. Generate the event-name union.
+// 2. Create a function on() that accepts only valid event names.
+// 3. Test valid and invalid event names.
+interface IUserTask5 {
+  id: number;
+  name: string;
+  email: string;
+  age: number;
+}
+type UserEvents = `${string & keyof IUserTask5}Changed`;
+function on(eventName: UserEvents) {
+  console.log(`Event registered: ${eventName}`);
+}
+
+on("nameChanged");
+on("emailChanged");
+on("ageChanged");
+
+// Error: invalid event name
+// on("salaryChanged");
