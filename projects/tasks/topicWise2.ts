@@ -136,3 +136,21 @@ const user = getUser(1);
 const users = getUser([1, 2, 3]);
 console.log(user, users)
 // User[]
+
+/** -------------------------------------- Declaration Merging   ------------------------------------------------ **/
+interface Product {
+  id: number;
+  name: string;
+}
+interface Product {
+  price: number;
+  category: string;
+}
+const prod: Product= {
+  id: 234,
+  name: "Jeans",
+  price: 24234,
+  category: 'men'
+}
+// Declaration merging works with interfaces, namespaces, and certain combinations of declarations. 
+// Type aliases cannot be redeclared and merged like interfaces.
