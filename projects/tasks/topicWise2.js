@@ -81,8 +81,28 @@ const prod = {
     id: 234,
     name: "Jeans",
     price: 24234,
-    category: 'men'
+    category: "men",
 };
-// Declaration merging works with interfaces, namespaces, and certain combinations of declarations. 
-// Type aliases cannot be redeclared and merged like interfaces.
+function processPayment(action) {
+    switch (action.status) {
+        case "pending":
+            return action.status;
+        case "success":
+            return action.status;
+        case "failed":
+            return action?.errorMessage;
+        default:
+            return;
+    }
+}
+function renderState(state) {
+    switch (state.status) {
+        case "loading":
+            return "Loading...";
+        case "success":
+            return `Loaded ${state.data.length} records`;
+        case "error":
+            return `Error: ${state.error}`;
+    }
+}
 //# sourceMappingURL=topicWise2.js.map

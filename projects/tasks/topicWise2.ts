@@ -134,7 +134,7 @@ const user = getUser(1);
 // User
 
 const users = getUser([1, 2, 3]);
-console.log(user, users)
+console.log(user, users);
 // User[]
 
 /** -------------------------------------- Declaration Merging   ------------------------------------------------ **/
@@ -146,11 +146,85 @@ interface Product {
   price: number;
   category: string;
 }
-const prod: Product= {
+const prod: Product = {
   id: 234,
   name: "Jeans",
   price: 24234,
-  category: 'men'
-}
-// Declaration merging works with interfaces, namespaces, and certain combinations of declarations. 
+  category: "men",
+};
+// Declaration merging works with interfaces, namespaces, and certain combinations of declarations.
 // Type aliases cannot be redeclared and merged like interfaces.
+
+/** -------------------------------------- Module Augmentation   ------------------------------------------------ **/
+
+/** -------------------------------------- Topic wise tasks (Topics 39–46) Advance qns------------------------------------------------ **/
+
+/**
+ * Requirements:
+ Problem 1 — Payment Status
+
+Payment system ke liye types banao:
+- Pending: status, orderId
+- Success: status, transactionId, amount
+- Failed: status, errorMessage, errorCode
+Ek processPayment() function banao jo har status ke according different message return kare.
+*/
+
+type Pending = {
+  status: "pending";
+  orderId: number;
+};
+
+type Success = {
+  status: "success";
+  transactionId: string;
+  amount: number;
+};
+
+type Failed = {
+  status: "failed";
+  errorMessage: string;
+  errorCode: number;
+};
+type Payment = Pending | Success | Failed;
+function processPayment(action: Payment) {
+  switch (action.status) {
+    case "pending":
+      return action.status;
+    case "success":
+      return action.status;
+    case "failed":
+      return action?.errorMessage;
+    default:
+      return;
+  }
+}
+
+/**
+ * Problem 2 — UI Component State
+ * 
+ * Ek component ke liye loading, success aur error states define karo.
+Requirements:
+- Loading: isLoading: true
+- Success: data available ho
+- Error: error available ho
+renderState() function banao jo appropriate message return kare.
+*/
+
+type UIState =
+  | { status: "loading"; isLoading: true }
+  | { status: "success"; isLoading: false; data: string[] }
+  | { status: "error"; isLoading: false; error: string };
+
+function renderState(state: UIState): string {
+  switch (state.status) {
+    case "loading":
+      return "Loading...";
+
+    case "success":
+      return `Loaded ${state.data.length} records`;
+
+    case "error":
+      return `Error: ${state.error}`;
+  }
+}
