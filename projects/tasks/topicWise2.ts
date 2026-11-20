@@ -229,7 +229,6 @@ function renderState(state: UIState): string {
   }
 }
 
-
 /**
  * 
  * Problem 3 — Shape Calculator
@@ -240,7 +239,6 @@ Circle, Rectangle aur Square ke liye discriminated union banao.
 - Square: side
 calculateArea() function implement karo.
 */
-
 
 type Shape =
   | { type: "circle"; radius: number }
@@ -258,4 +256,29 @@ function calculateArea(shape: Shape): number {
     case "square":
       return shape.side ** 2;
   }
+}
+
+/**
+ * 
+ * 
+ * Function Overloads Problem 1 — Format Value
+
+formatValue() function banao:
+- String input → uppercase string
+- Number input → number ko currency string mein convert karo
+- Boolean input → "Active" ya "Inactive"
+*/
+
+function formatValue(input: string): string;
+function formatValue(input: number): string;
+function formatValue(input: boolean): string;
+function formatValue(input: string | number | boolean): string {
+  if (typeof input === "string") {
+    return input.toUpperCase();
+  }
+  if (typeof input === "number") {
+    return `₹${input.toFixed(2)}`;
+  }
+
+  return input ? "Active" : "Inactive";
 }

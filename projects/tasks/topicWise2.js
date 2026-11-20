@@ -115,4 +115,13 @@ function calculateArea(shape) {
             return shape.side ** 2;
     }
 }
+function formatValue(input) {
+    if (typeof input === "string") {
+        return input.toUpperCase();
+    }
+    if (typeof input === "number") {
+        return `₹${input.toFixed(2)}`;
+    }
+    return input ? "Active" : "Inactive";
+}
 //# sourceMappingURL=topicWise2.js.map
