@@ -105,4 +105,14 @@ function renderState(state) {
             return `Error: ${state.error}`;
     }
 }
+function calculateArea(shape) {
+    switch (shape.type) {
+        case "circle":
+            return Math.PI * shape.radius ** 2;
+        case "rectangle":
+            return shape.width * shape.height;
+        case "square":
+            return shape.side ** 2;
+    }
+}
 //# sourceMappingURL=topicWise2.js.map

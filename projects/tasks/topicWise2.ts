@@ -228,3 +228,34 @@ function renderState(state: UIState): string {
       return `Error: ${state.error}`;
   }
 }
+
+
+/**
+ * 
+ * Problem 3 — Shape Calculator
+
+Circle, Rectangle aur Square ke liye discriminated union banao.
+- Circle: radius
+- Rectangle: width, height
+- Square: side
+calculateArea() function implement karo.
+*/
+
+
+type Shape =
+  | { type: "circle"; radius: number }
+  | { type: "rectangle"; width: number; height: number }
+  | { type: "square"; side: number };
+
+function calculateArea(shape: Shape): number {
+  switch (shape.type) {
+    case "circle":
+      return Math.PI * shape.radius ** 2;
+
+    case "rectangle":
+      return shape.width * shape.height;
+
+    case "square":
+      return shape.side ** 2;
+  }
+}
