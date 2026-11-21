@@ -282,3 +282,68 @@ function formatValue(input: string | number | boolean): string {
 
   return input ? "Active" : "Inactive";
 }
+
+/**
+ * 
+ * 
+ * Problem 2 — Create User
+
+createUser() overload banao:
+- Name input → user with generated ID
+- Name + age input → user with generated ID and age
+*/
+
+interface UserType {
+  id: number;
+  name: string;
+  age?: number;
+  city?: string;
+}
+
+function createUser(name: string, age: number): UserType;
+function createUser(name: string, age: number, city: string): UserType;
+
+function createUser(name: string, age?: number, city?: string): UserType {
+  return {
+    id: Date.now(),
+    name,
+    ...(age !== undefined && { age }),
+    ...(city !== undefined && { city }),
+  };
+}
+
+const user1 = createUser("Rahul", 42);
+const user2 = createUser("Amit", 28, "Bengaluru");
+console.log(user1, user2);
+
+/**
+ * 
+ * 
+ * Problem 3 — Get Product
+
+Ek getProduct() function banao:
+- ID number pass karne par single product return ho.
+- "all" pass karne par products ka array return ho.
+*/
+
+type EProduct = {
+  id: number;
+  title: string;
+  category: string;
+};
+const eProduct = [
+  {
+    id: 42,
+    title: "jeans",
+    category: "clothing",
+  },
+];
+
+function getProduct(id: number): EProduct | undefined;
+function getProduct(type: "all"): EProduct[];
+function getProduct(id: number | "all"): EProduct | EProduct[] | undefined {
+  if (id === "all") {
+    return eProduct;
+  }
+  return eProduct.find((ep) => ep.id === id);
+}

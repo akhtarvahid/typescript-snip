@@ -124,4 +124,28 @@ function formatValue(input) {
     }
     return input ? "Active" : "Inactive";
 }
+function createUser(name, age, city) {
+    return {
+        id: Date.now(),
+        name,
+        ...(age !== undefined && { age }),
+        ...(city !== undefined && { city }),
+    };
+}
+const user1 = createUser("Rahul", 42);
+const user2 = createUser("Amit", 28, "Bengaluru");
+console.log(user1, user2);
+const eProduct = [
+    {
+        id: 42,
+        title: "jeans",
+        category: "clothing",
+    },
+];
+function getProduct(id) {
+    if (id === "all") {
+        return eProduct;
+    }
+    return eProduct.find((ep) => ep.id === id);
+}
 //# sourceMappingURL=topicWise2.js.map
