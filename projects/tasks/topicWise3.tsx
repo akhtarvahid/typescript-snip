@@ -1,7 +1,5 @@
-
 /** -------------------------------------- Topic wise tasks  ------------------------------------------------ **/
 /** -------------------------------------- Topics 47–59  ------------------------------------------------ **/
-
 
 /**
  * 
@@ -33,7 +31,7 @@ type IUserProfile = {
   age: number;
   email?: string;
   isActive: boolean;
-  children?: React.ReactNode
+  children?: React.ReactNode;
 };
 function UserProfile({ name, age, email, isActive, children }: IUserProfile) {
   return (
@@ -46,9 +44,6 @@ function UserProfile({ name, age, email, isActive, children }: IUserProfile) {
     </>
   );
 }
-
-
-
 
 /**
  * 
@@ -99,7 +94,6 @@ function Button({
   );
 }
 
-
 /*
  
 Typed Form Events
@@ -131,7 +125,6 @@ function Form() {
     </form>
   );
 }
-
 
 /*
  
@@ -182,67 +175,130 @@ function ReusableForm() {
   );
 }
 
-
 /*
  
- User Management
-Create a small user management component using useState.
+ Product Management
+Create a product management component using useReducer.
 
 Requirements:
-1. Maintain an array of users.
+1. Maintain an array of products.
 2. Initially array empty hona chahiye.
-3. Add a new user.
-4. Remove a user using ID.
-5. Update a user's name using ID.
+3. Add a new product.
+4. Remove a product using ID.
+5. Update a product's name using ID.
 
 
-// User data sample
-type User = {
+// product data sample
+type Product = {
   id: number;
   name: string;
-  email: string;
+  price: number;
+  quantity: number;
 };
 
 */
 
-type FormData = {
+
+type Product = {
   id: number;
   name: string;
-  email: string;
+  price: number;
+  quantity: number;
 };
-function UserManagement() {
-  const [state, setState] = useState<FormData[]>([]);
 
-  const addUser = (obj: FormData) => {
-    setState((prev) => [...prev, obj]);
-  };
-  const removeUser = (id: number) => {
-    setState((prev) => prev.filter((p) => p.id !== id));
-  };
-  const updateUser = (id: number, name: string) => {
-    setState((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, name: name } : p)),
-    );
-  };
+type Action =
+  | {
+      type: 'ADD';
+      payload: Product;
+    }
+  | {
+      type: 'REMOVE';
+      payload: { id: number };
+    }
+  | {
+      type: 'UPDATE';
+      payload: Partial<Product> & { id: number };
+    };
 
-  console.log(state)
+type State = {
+  products: Product[];
+};
 
-  return (
-    <>
-      <button
-        onClick={() =>
-          addUser({
-            id: 1,
-            name: "Vahid",
-            email: "vahid@example.com",
-          })
-        }
-      >
-        Add
-      </button>
-      <button onClick={() => removeUser(1)}>Remove last</button>
-      <button onClick={() => updateUser(1, "Vahid Akhtar")}>Update</button>
-    </>
-  );
+const initialState: State = {
+  products: [],
+};
+function reducer(state: State, action: Action) {
+  switch (action.type) {
+    case 'ADD': {
+      return {
+        products: [...state.products, action.payload],
+      };
+    }
+    case 'UPDATE': {
+      return {
+        products: state.products.map((product) =>
+          product.id === action.payload?.id ? { ...product, ...action.payload } : product,
+        ),
+      };
+    }
+    case 'REMOVE': {
+      return {
+        products: state.products.filter((product) => product.id !== action?.payload?.id),
+      };
+    }
+    default: {
+      const exhaustiveCheck: never = action;
+      return exhaustiveCheck;
+    }
+  }
 }
 
+function ProductApp() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return (
+    <div>
+      <button
+        onClick={() => {
+          dispatch({
+            type: 'ADD',
+            payload: {
+              id: 23,
+              name: 'Jeans',
+              price: 422,
+              quantity: 2,
+            },
+          });
+        }}
+      >
+        Add product
+      </button>
+      <button
+        onClick={() => {
+          dispatch({
+            type: 'UPDATE',
+            payload: {
+              id: 23,
+              name: 'Jeans Shirt',
+              price: 422,
+              quantity: 2,
+            },
+          });
+        }}
+      >
+        Update product
+      </button>
+      <button
+        onClick={() => {
+          dispatch({
+            type: 'REMOVE',
+            payload: {
+              id: 23,
+            },
+          });
+        }}
+      >
+        Delete product
+      </button>
+    </div>
+  );
+}
