@@ -302,3 +302,37 @@ function ProductApp() {
     </div>
   );
 }
+
+
+
+
+/*
+ 
+Auto Focus
+Create a component with:
+- One input field.
+- One button named Focus Input.
+- Clicking the button should focus the input.
+- Use useRef with proper TypeScript typing.
+
+*/
+
+
+function FocusApp() {
+  const inputRef = useRef<HTMLInputElement>(null);
+  return (
+    <div>
+      <input type="text" ref={inputRef} placeholder="Click button to focus" />
+      <button
+        onClick={() => {
+          // TypeScript strict mode mein inputRef.current initially null ho sakta hai.
+          inputRef.current?.focus();
+        }}
+      >
+        Focus input
+      </button>
+    </div>
+  );
+}
+
+
