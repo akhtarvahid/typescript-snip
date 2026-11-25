@@ -335,4 +335,64 @@ function FocusApp() {
   );
 }
 
+/**
+Requirements:
+1. useRef se counter create karo.
+2. Har component render par counter increment karo.
+3. Counter increment hone par additional re-render trigger nahi hona chahiye.
+4. Counter ki value console mein print karo.
+*/
 
+
+```js
+function Conter() {
+const countRef = useRef<number>(0);
+
+useEffect(() => {
+  ++countRef.current;
+  console.log('Render count:', countRef.current);
+});
+
+return <div>{countRef.current.toString()}</div>;
+}
+
+```
+
+
+/**
+Requirements:
+1. Start button.
+2. Stop button.
+3. Reset button.
+4. Store interval ID using useRef.
+5. Store displayed seconds using useState.
+6. Clear interval when component unmounts.
+*/
+function Conter() {
+  const [seconds, setSeconds] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const startTimer = () => {
+    if (timerRef.current != null) return;
+    timerRef.current = setInterval(() => {
+      setSeconds((s) => s + 1);
+    }, 1000);
+  };
+  const stopTimer = () => {
+    if (timerRef.current != null) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+  const resetTimer = () => {
+    setSeconds(0);
+    timerRef.current = null;
+  };
+  return (
+    <div>
+      <h4>{seconds}</h4>
+      <button onClick={startTimer}>START</button>
+      <button onClick={stopTimer}>STOP</button>
+      <button onClick={resetTimer}>RESET</button>
+    </div>
+  );
+}
